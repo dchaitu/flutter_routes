@@ -48,9 +48,13 @@ class AppRouter extends RouterDelegate
 
       // 9
       pages: [
-        // TODO: Add SplashScreen
-        // TODO: Add LoginScreen
-        // TODO: Add OnboardingScreen
+        if (!appStateManager.isInitialized) SplashScreen.page(),
+        if (appStateManager.isInitialized && !appStateManager.isLoggedIn)
+          LoginScreen.page(),
+        if (appStateManager.isLoggedIn &&
+            !appStateManager.isOnboardingComplete)
+          OnboardingScreen.page(),
+
         // TODO: Add Home
         // TODO: Create new item
         // TODO: Select GroceryItemScreen
@@ -72,7 +76,9 @@ class AppRouter extends RouterDelegate
     }
 
     // 5
-    // TODO: Handle Onboarding and splash
+    if (route.settings.name == FooderlichPages.onboardingPath) {
+      appStateManager.logout();
+    }
     // TODO: Handle state when user closes grocery item screen
     // TODO: Handle state when user closes profile screen
     // TODO: Handle state when user closes WebView screen
